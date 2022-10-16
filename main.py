@@ -1,21 +1,34 @@
-from fastapi import FastAPI, Depends, APIRouter, HTTPException, Header
-from fastapi.security import OAuth2PasswordBearer
+from fastapi import FastAPI, Depends, APIRouter, HTTPException, Request
 
 
 app = FastAPI()
 
-oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
+
+class Auth:
+    async def __call__(self, request: Request):
+        authorization = request.headers.get("Authorization")
+        if authorization:
+            _scheme, token = authorization.split(" ")
+
+        # Token validator
+
+        if not authorization:
+            raise HTTPException(
+                403,
+                detail="Not authenticated",
+                headers={"WWW-Authenticate": "Bearer"},
+            )
+        return token
 
 
-async def get_token_header(x_token: str = Header()):
-    print("Token")
-    if x_token != "fake-super-secret-token":
-        raise HTTPException(status_code=403, detail="X-Token header invalid")
-
-
-router = APIRouter(dependencies=[Depends(oauth2_scheme)], responses={404: {"description": "Not found"}})
+router = APIRouter()
 
 
 @router.get("/")
-async def read_root(name, last_name):
+async def read_root(token=Depends(Auth())):
+    print("Depois aqui")
+    print("Token", token)
     return {"Hello": "World"}
+
+
+app.include_router(router)
