@@ -32,7 +32,7 @@ class Controller:
     async def perform(self, inputs) -> tuple[int, dict]:
         pass
 
-    def get_schema(self):
+    def get_schema(self, inputs):
         pass
 
     async def handle(self, inputs) -> tuple[int, dict]:
@@ -48,7 +48,7 @@ class Controller:
         from schema import Schema
 
         try:
-            schema = Schema(self.get_schema(), ignore_extra_keys=True)
+            schema = Schema(self.get_schema(inputs), ignore_extra_keys=True)
             schema.validate(inputs)
         except Exception as e:
             return str(e)
@@ -90,4 +90,16 @@ class Hasher(ABC):
 class Loader:
     @abstractmethod
     async def load(self, inputs=None):
+        pass
+
+
+class Adder:
+    @abstractmethod
+    async def add(self, inputs=None):
+        pass
+
+
+class Checker:
+    @abstractmethod
+    async def check(self, inputs=None) -> bool:
         pass

@@ -1,4 +1,4 @@
-from app.core import Loader
+from app.core import Adder, Checker, Loader
 from dotenv import dotenv_values
 import pandas as pd
 
@@ -29,4 +29,33 @@ class RepositoryTemp2(Loader):
 
         DF = list(pd.read_sql_query(query, self.engine).T.to_dict().values())
 
-        return None
+        return
+
+
+class AddUserPg(Adder):
+    def __init__(self):
+        self.engine = PostgresConnection.get_engine()
+
+    async def add(self, inputs):
+        query = f"""
+            INSERT INTO 
+                users (email, password, username) 
+            VALUES 
+                ('{inputs["email"]}', '{inputs["password"]}', '{inputs["username"]}')
+            RETURNING id_user
+        """
+        DF = list(pd.read_sql_query(query, self.engine).T.to_dict().values())[0]
+
+        return DF
+
+
+class CheckExistEmailPg(Checker):
+    def __init__(self):
+        self.engine = PostgresConnection.get_engine()
+
+    async def check(self, email: str) -> bool:
+        query = f"SELECT COUNT(*) AS count FROM users WHERE email = '{email}'"
+
+        DF = list(pd.read_sql_query(query, self.engine).T.to_dict().values())[0]
+
+        return True if DF["count"] > 0 else False

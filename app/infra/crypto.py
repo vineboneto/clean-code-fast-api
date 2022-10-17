@@ -4,7 +4,6 @@ from passlib.context import CryptContext
 
 class CryptoAdapter(Hasher):
     def __init__(self) -> None:
-        Hasher.__init__()
         self.crypto = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
     async def hasher(self, payload: str) -> str:
