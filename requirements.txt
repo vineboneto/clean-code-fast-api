@@ -2,6 +2,8 @@ fastapi
 uvicorn
 black
 passlib
+pyodbc
+pg8000
 python-jose
 SQLAlchemy
 pandas

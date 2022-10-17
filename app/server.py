@@ -1,6 +1,7 @@
 from fastapi import FastAPI, APIRouter
 from app.application.controllers import LoginController
 from app.infra.sql_server import RepositoryTest
+from app.infra.pg import RepositoryTemp2
 from app.main.adapter import adapter_controller as adapt
 from app.main.middlewares import auth
 
@@ -9,7 +10,7 @@ router = APIRouter()
 
 
 def login_router():
-    controller = LoginController(RepositoryTest())
+    controller = LoginController(RepositoryTemp2())
     return adapt(controller, dependencies=[auth()])
 
 

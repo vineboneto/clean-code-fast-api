@@ -13,7 +13,7 @@ class SQLServerConnection:
             from sqlalchemy import create_engine
             from sqlalchemy.engine import URL
 
-            DATABASE_URL = env["DATABASE_URL"]
+            DATABASE_URL = env["DATABASE_URL_SQL_SERVER"]
             conn = URL.create("mssql+pyodbc", DATABASE_URL, query={"odbc_connect": DATABASE_URL})
             SQLServerConnection.engine = create_engine(conn)
 
