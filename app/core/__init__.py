@@ -45,16 +45,17 @@ class Controller:
             return HTTP.server_error(str(e))
 
     async def validate(self, inputs) -> bool:
-        from schema import Schema
+        if self.get_schema():
+            from schema import Schema
 
-        try:
-            schema = Schema(self.get_schema(), ignore_extra_keys=True)
-            schema.validate(inputs)
-        except Exception as e:
-            return str(e)
+            try:
+                schema = Schema(self.get_schema(), ignore_extra_keys=True)
+                schema.validate(inputs)
+            except Exception as e:
+                return str(e)
 
 
-class Middleware:
+class Middleware(ABC):
     @abstractmethod
     async def handle(self, inputs):
         pass
@@ -87,19 +88,19 @@ class Hasher(ABC):
         pass
 
 
-class Loader:
+class Loader(ABC):
     @abstractmethod
     async def load(self, inputs=None):
         pass
 
 
-class Adder:
+class Adder(ABC):
     @abstractmethod
     async def add(self, inputs=None):
         pass
 
 
-class Checker:
+class Checker(ABC):
     @abstractmethod
     async def check(self, inputs=None) -> bool:
         pass

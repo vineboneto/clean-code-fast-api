@@ -57,8 +57,20 @@ class LoadUserByEmail(Loader):
     def __init__(self):
         self.engine = PostgresConnection.get_engine()
 
-    async def load(self, email: str) -> bool:
+    async def load(self, email: str):
         query = f"SELECT * FROM users WHERE email = '{email}'"
+
+        DF = PostgresConnection.query(query, self.engine)
+
+        return DF
+
+
+class LoadUserById(Loader):
+    def __init__(self):
+        self.engine = PostgresConnection.get_engine()
+
+    async def load(self, id_user: int):
+        query = f"SELECT * FROM users WHERE id_user = {id_user}"
 
         DF = PostgresConnection.query(query, self.engine)
 

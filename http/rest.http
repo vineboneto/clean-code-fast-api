@@ -1,6 +1,8 @@
 ###
 
 @api_url = http://localhost:3333
+@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2NjYwMzYwMTUsInN1YiI6IjMifQ.Nw4-LaQ3svTWkG2KNa-SoXaCpiueL_b_aDzVh4FDKL4
+
 
 ###
 POST {{api_url}}/users/login HTTP/1.1
@@ -21,3 +23,16 @@ Content-Type: application/json
   "username": "John doe",
   "password": "1234"
 }
+
+###
+POST {{api_url}}/users/refresh_token HTTP/1.1
+Content-Type: application/json
+
+{
+  "refresh_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2NjYxMjE4MjksInN1YiI6IjMifQ.sVb8Uaeok8Xb1Xtlhwf48hWYCnZxJ5R_IOGis9HdHKE"
+}
+
+###
+GET {{api_url}}/users/me HTTP/1.1
+Content-Type: application/json
+Authorization: Bearer {{token}}
