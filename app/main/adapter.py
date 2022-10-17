@@ -10,8 +10,6 @@ def adapter_controller(controller: Controller, dependencies=[]):
             d = await deps(request)
             args = {**args, **d}
 
-        print(args)
-
         body = await request.body()
         body = loads(body) if body else {}
 
