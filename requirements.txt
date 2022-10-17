@@ -3,3 +3,5 @@ uvicorn
 black
 passlib
 python-jose
+SQLAlchemy
+pandas
