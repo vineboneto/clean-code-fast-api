@@ -3,6 +3,10 @@
 @api_url = http://localhost:3333
 
 ###
-GET {{api_url}} HTTP/1.1
+POST {{api_url}}/1?name=Vinicius&last_name=Boneto HTTP/1.1
 Content-Type: application/json
 Authorization: Bearer 123testando
+
+{
+  "temp": "123"
+}
