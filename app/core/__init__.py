@@ -15,6 +15,29 @@ class TokenGenerator(ABC):
         pass
 
 
+class HTTP:
+    def ok(data: dict):
+        return 200, data
+
+    def no_content():
+        return 204, ""
+
+    def bad_request(detail):
+        return 400, {"detail": detail}
+
+    def conflict(detail):
+        return 400, {"detail": detail}
+
+    def server_error(detail):
+        return 500, {"detail": detail}
+
+    def forbidden(detail):
+        return 403, {"detail": detail}
+
+    def unauthorized(detail):
+        return 401, {"detail": detail}
+
+
 class Hasher(ABC):
     def __init__(self) -> None:
         super().__init__()
@@ -32,8 +55,26 @@ class Controller:
     async def perform(self, inputs) -> tuple[int, dict]:
         pass
 
+    def get_schema(self):
+        pass
+
     async def handle(self, inputs) -> tuple[int, dict]:
-        return await self.perform(inputs)
+        try:
+            error = await self.validate(inputs)
+            if error:
+                return HTTP.bad_request(str(error))
+            return await self.perform(inputs)
+        except Exception as e:
+            return HTTP.server_error(str(e))
+
+    async def validate(self, inputs) -> bool:
+        from schema import Schema
+
+        try:
+            schema = Schema(self.get_schema(), ignore_extra_keys=True)
+            schema.validate(inputs)
+        except Exception as e:
+            return str(e)
 
 
 class Middleware:

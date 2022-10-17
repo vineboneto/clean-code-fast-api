@@ -23,7 +23,7 @@ def adapter_controller(controller: Controller, dependencies=[]):
 
         status, data = await controller.handle(args)
 
-        return Response(dumps(data), status)
+        return Response(dumps(data) if data else data, status)
 
     return wrap
 
@@ -33,15 +33,14 @@ def adapter_middleware(middleware: Middleware):
         authorization = request.headers.get("Authorization")
 
         if not authorization:
-            raise HTTPException(
-                403,
-                detail="Not authenticated",
-                headers={"WWW-Authenticate": "Bearer"},
-            )
+            raise HTTPException(403, "Missing token")
 
-        _scheme, token = authorization.split(" ")
+        _bearer, token = authorization.split(" ")
 
         status, data = await middleware.handle({"token": token})
+
+        if status in [403, 401]:
+            raise HTTPException(status, data["detail"])
 
         return data
 

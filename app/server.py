@@ -6,7 +6,6 @@ from app.main.middlewares import auth
 app = FastAPI()
 router = APIRouter()
 
-
 router.add_api_route(path="/", methods=["POST"], endpoint=adapt(LoginController(), dependencies=[auth()]))
 
 app.include_router(router)
