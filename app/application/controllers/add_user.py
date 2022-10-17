@@ -20,7 +20,7 @@ class AddUserController(Controller):
 
         return HTTP.conflict("Esse email ja esta sendo utilizado")
 
-    def get_schema(self, inputs):
+    def get_schema(self):
         regex = r"([-!#-'*+/-9=?A-Z^-~]+(\.[-!#-'*+/-9=?A-Z^-~]+)*|\"([]!#-[^-~ \t]|(\\[\t -~]))+\")@([-!#-'*+/-9=?A-Z^-~]+(\.[-!#-'*+/-9=?A-Z^-~]+)*|\[[\t -Z^-~]*])"
         return {
             "username": str,

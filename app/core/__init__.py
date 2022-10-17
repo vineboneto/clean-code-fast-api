@@ -32,7 +32,7 @@ class Controller:
     async def perform(self, inputs) -> tuple[int, dict]:
         pass
 
-    def get_schema(self, inputs):
+    def get_schema(self):
         pass
 
     async def handle(self, inputs) -> tuple[int, dict]:
@@ -48,7 +48,7 @@ class Controller:
         from schema import Schema
 
         try:
-            schema = Schema(self.get_schema(inputs), ignore_extra_keys=True)
+            schema = Schema(self.get_schema(), ignore_extra_keys=True)
             schema.validate(inputs)
         except Exception as e:
             return str(e)

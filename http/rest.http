@@ -3,13 +3,12 @@
 @api_url = http://localhost:3333
 
 ###
-POST {{api_url}} HTTP/1.1
+POST {{api_url}}/users/login HTTP/1.1
 Content-Type: application/json
-Authorization: Bearer 123testando
 
 {
-  "age": 123,
-  "name": "VInicius"
+  "email": "email@gmail.com",
+  "password": "1234"
 }
 
 ###
