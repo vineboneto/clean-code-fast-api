@@ -26,3 +26,17 @@ class Hasher(ABC):
     @abstractmethod
     async def verify(self, payload: str, hasher: str) -> bool:
         pass
+
+
+class Controller:
+    async def perform(self, inputs) -> tuple[int, dict]:
+        pass
+
+    async def handle(self, inputs) -> tuple[int, dict]:
+        return await self.perform(inputs)
+
+
+class Middleware:
+    @abstractmethod
+    async def handle(self, inputs):
+        pass

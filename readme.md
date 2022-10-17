@@ -6,8 +6,10 @@
 - Python 3.10.8
 - Pip
 
-# Started
+# Iniciando
 
 ```bash
-$ python run.py --start --install
+$ python runserver.py --install 
+# Or
+$ python runserver.py
 ```
